@@ -1,0 +1,112 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.horse-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.horse-item {
+    width: 200px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.horse-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.horse-name {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.contribution {
+    color: #777;
+}
+
+.girl-image {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.girl-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.result, .race-in-progress, .previous-results {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.race-in-progress {
+    position: relative;
+    overflow: hidden;
+    height: 200px; /* 適切な高さに調整 */
+    background-image: url('images/0.png'); /* 背景画像を設定 */
+    background-repeat: repeat-x;
+    animation: scroll 10s linear infinite; /* アニメーションを設定 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px #000;
+}
+
+@keyframes scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: -960px 0; } /* 背景画像の幅に合わせて調整 */
+}
+
+.previous-results ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+}

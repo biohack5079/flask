@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最大３億円が当たる！イケメン競馬ゲーム「osiuma」</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>最大３億円が当たる！イケメン競馬ゲーム「osiuma」</h1>
+
+        <div class="horse-list">
+            {% for i in range(horses|length) %}
+            <div class="horse-item">
+                <img src="{{ horse_images[i] }}" alt="{{ horses[i] }}">
+                <p class="horse-name">{{ horses[i] }}</p>
+                <p class="contribution">貢献金額: {{ format_money(contributions[horses[i]]) }}</p>
+                <form action="{{ url_for('contribute', horse_name=horses[i]) }}" method="post">
+                    {% if skip_confirmation %}
+                    <button type="submit">推す (1000万円)</button>
+                    {% else %}
+                    <button type="button" onclick="showContributionDialog('{{ horses[i] }}')">推す (1000万円)</button>
+                    {% endif %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="girl-image">
+            <img src="{{ girl_images[0] }}" alt="推し">
+            <p onclick="alert('推し方で勝負が決まるよ！')" style="cursor:pointer;">推し方</p>
+        </div>
+
+        <div class="controls">
+            <form action="{{ url_for('start_race') }}" method="post">
+                <button type="submit" {% if race_in_progress %}disabled{% endif %}>START</button>
+            </form>
+            <form action="{{ url_for('toggle_skip_confirmation') }}" method="post">
+                <label>
+                    <input type="checkbox" name="skip_confirmation" {% if skip_confirmation %}checked{% endif %}>
+                    次回以降の確認を省略
+                </label>
+            </form>
+        </div>
+
+        {% if session.race_result %}
+        <div class="result">
+            <h2>レース結果</h2>
+            <ol>
+                {% for horse, contribution in session.race_result %}
+                <li>{{ loop.index }}着: {{ horse }} ({{ contribution }})</li>
+                {% endfor %}
+            </ol>
+            {% if session.total_contribution %}
+            <p>合計貢献金額: {{ session.total_contribution }}</p>
+            {% endif %}
+        </div>
+        {% elif race_in_progress %}
+        <div class="race-in-progress">
+            <h2>レース中！</h2>
+            <div class="background-scroll">
+                </div>
+            <audio id="raceBGM" src="{{ url_for('static', filename='audio/race_bgm.mp3') }}" autoplay loop></audio>
+        </div>
+        {% endif %}
+
+        {% if previous_results %}
+        <div class="previous-results">
+            <h2>過去のレース結果</h2>
+            {% for result in previous_results %}
+            <ol>
+                {% for horse, contribution in result %}
+                <li>{{ loop.index }}着: {{ horse }} ({{ contribution }})</li>
+                {% endfor %}
+            </ol>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function showContributionDialog(horseName) {
+            if (confirm(horseName + 'を推しますか？ (1000万円)')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/contribute/' + horseName;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+</body>
+</html>

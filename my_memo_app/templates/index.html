@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>メモ一覧</h1>
+    {% if memos == [] %}
+        <p>メモがありません</p>
+    {% else %}
+    <ul>
+        {% for memo in memos %}
+            <li>{{ memo.title }} -
+                <a href="{{ url_for('update', memo_id=memo.id) }}">編集</a> |
+                <a href="{{ url_for('delete', memo_id=memo.id) }}">削除</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<!-- ；あｓｌｄｋｆじゃ；ｓどいｊ-->
+{% for message in get_flashed_messages() %}
+<div style="color: blue;">
+    {{ message }}
+</div>
+{% endfor %}
+<!-- ；あｓｌｄｋｆじゃ；ｓどいｊ-->
+<a href="{{ url_for('create')}}">新しいメモを作成</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>新しいメモを作成</h1>
+    {% from "_formhelpers.html" import render_field %}
+    <form method="post" action="{{ url_for('create') }}" novalidate>
+        {{ form.hidden_tag() }}
+        {{ render_field(form['title']) }}
+        {{ render_field(form.content, rows=5, cols=50) }}
+        {{ form.submit }}
+    </form>
+
+    <a href="{{ url_for('index')}}">戻る</a>
+{% endblock %}
